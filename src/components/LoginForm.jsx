@@ -33,9 +33,7 @@ const LoginForm = () => {
           navigate("/gallery");
         })
         .catch((error) => {
-          alert(error.code);
           setError(error.code);
-          setLogin(true);
           setPassword("");
         });
     } else {
@@ -44,7 +42,6 @@ const LoginForm = () => {
           navigate("/gallery");
         })
         .catch((error) => {
-          alert(error.code);
           setError(error.code);
           setPassword("");
         });
