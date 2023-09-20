@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <AuthContext>
-        <div className="p-4 max-w-7xl">
+        <div className="p-4 bg-zinc-800">
           <Routes>
             <Route path="/" element={<LoginForm />} />;
             <Route path="/login" element={<LoginForm />} />;

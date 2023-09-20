@@ -27,7 +27,7 @@ const SortableImage = ({ item, index }) => {
       {...attributes}
       {...listeners}
       style={style}
-      className="border border-gray-300 rounded-2xl overflow-hidden flex flex-col justify-between gap-2"
+      className="border border-gray-300 rounded-2xl overflow-hidden flex flex-col justify-between gap-2 bg-sky-300 w-[210px]"
     >
       <img src={item.url} alt={`Image ${index}`} className="w-full" />
       <p className="m-2 pl-2 font-semibold">{item.tag}</p>
@@ -89,7 +89,6 @@ const ImageGallery = () => {
   }, []);
 
   useEffect(() => {
-    // Filter images based on the search query
     const filteredImages = imageData.filter((item) =>
       item.tag.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -109,30 +108,24 @@ const ImageGallery = () => {
   };
 
   const handleLogout = () => {
-    // Logout the user
-    signOut(database).then((val) => {
-      console.log(val);
-      history("/");
+    signOut(database).then(() => {
+      setTimeout(() => {
+        history("/");
+      }, 2000);
     });
   };
 
   return (
-    <div>
-      <div>
+    <div className="bg-zinc-800 h-full min-h-screen max-w-5xl m-auto">
+      <div className="flex justify-between items-center  p-6">
         <Search handleSearch={handleSearch} searchQuery={searchQuery} />
-        <button
-          onClick={() => {
-            setLoading(true);
-            setTimeout(() => {
-              setLoading(false);
-            }, 1000);
-          }}
-        >
-          Refresh
-        </button>
 
-        {/* Logout button */}
-        <button onClick={handleLogout}>Logout</button>
+        <button
+          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
       <div className="">
         {loading ? (

@@ -3,7 +3,7 @@ const Search = ({ handleSearch, searchQuery }) => {
     <input
       type="text"
       placeholder="Search by tag..."
-      className="mb-4 p-2 border border-gray-300 w-4/5 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-900 focus:border-transparent"
+      className="bg-gray-300 p-2 border border-gray-300 min-w-[200px] max-w-[500px] w-1/2 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-900 focus:border-transparent"
       onChange={handleSearch}
       value={searchQuery}
     />

@@ -8,7 +8,17 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const [login, setLogin] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, setLogin] = useState(true);
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
 
   const navigate = useNavigate();
 
@@ -24,6 +34,7 @@ const LoginForm = () => {
         .catch((error) => {
           alert(error.code);
           setLogin(true);
+          setPassword("");
         });
     } else {
       signInWithEmailAndPassword(database, email, password)
@@ -32,6 +43,7 @@ const LoginForm = () => {
         })
         .catch((error) => {
           alert(error.code);
+          setPassword("");
         });
     }
   };
@@ -41,23 +53,57 @@ const LoginForm = () => {
   };
 
   return (
-    <div>
-      <p>
-        <button onClick={() => setLogin(!login)}>
-          {" "}
-          {login ? "SignUp" : "SignIn"}
-        </button>
-      </p>
-      <h1>{login ? "SignIn" : "SignUp"}</h1>
-      <form onSubmit={(e) => handleSubmit(e, login ? "SignIn" : "SignUp")}>
-        <input name="email" placeholder="Email" />
-        <br />
-        <input name="password" type="text" placeholder="Password" />
-        <br />
-        <button onClick={handleForgotPassword}>Forgot Password?</button>
-        <br />
+    <div className="flex flex-col h-screen justify-center items-center">
+      <h1 className="text-white text-8xl font-bold pb-28 transition-all">
+        {login ? "Login" : "SignUp"}
+      </h1>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={(e) => {
+          handleSubmit(e, login ? "SignIn" : "SignUp");
+        }}
+      >
+        <input
+          className="w-[300px] border-b-2 bg-transparent border-white focus:bg-transparent focus:border-b text-gray-100 focus:border-gray-500 focus:outline-0 caret-white transition duration-500 ease-in-out active:bg-transparent"
+          name="email"
+          placeholder="Email"
+          autoComplete="off"
+          value={email}
+          onChange={handleEmailChange}
+        />
+        <input
+          className="w-[300px] border-b-2 bg-transparent border-white focus:bg-transparent focus:border-b text-gray-100 focus:border-gray-500 focus:outline-0 caret-white transition duration-500 ease-in-out active:bg-transparent"
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={handlePasswordChange}
+        />
+        <div className="flex justify-end">
+          <p
+            className=" w-max text-sm text-indigo-400  transition hover:text-blue-700 hover:underline hover:cursor-pointer"
+            onClick={handleForgotPassword}
+          >
+            Forgot Password?
+          </p>
+        </div>
 
-        <button>{login ? "SignIn" : "SignUp"}</button>
+        <button className="text-white p-3 text-xl font-normal bg-indigo-600 justify-center rounded-2xl items-center inline-flex transition hover:bg-indigo-800">
+          {login ? "Login" : "SignUp"}
+        </button>
+        <p className=" text-gray-200 text-sm text-center">
+          {login ? "Don't have an account?" : "Already have an account?"}{" "}
+          <a
+            className="text-indigo-400  transition hover:text-blue-700 hover:underline hover:cursor-pointer"
+            onClick={() => {
+              setLogin(!login);
+              setEmail("");
+              setPassword("");
+            }}
+          >
+            {login ? "SignUp" : "Login"}
+          </a>
+        </p>
       </form>
     </div>
   );
