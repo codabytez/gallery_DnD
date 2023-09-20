@@ -108,11 +108,11 @@ const ImageGallery = () => {
   };
 
   const handleLogout = () => {
-    signOut(database).then(() => {
-      setTimeout(() => {
+    setTimeout(() => {
+      signOut(database).then(() => {
         history("/");
-      }, 2000);
-    });
+      });
+    }, 2000);
   };
 
   return (
