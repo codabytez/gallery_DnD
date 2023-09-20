@@ -18,7 +18,6 @@ const SortableImage = ({ item, index }) => {
     transition,
     zIndex: transform ? 1 : 0,
     opacity: transform ? 0.8 : 1,
-    // rotate: transform ? "1deg" : "0deg",
   };
 
   return (
@@ -27,7 +26,7 @@ const SortableImage = ({ item, index }) => {
       {...attributes}
       {...listeners}
       style={style}
-      className="border border-gray-300 rounded-2xl overflow-hidden flex flex-col justify-between gap-2 bg-sky-300 w-[210px]"
+      className="border border-gray-300 rounded-2xl overflow-hidden flex flex-col justify-between gap-2 bg-sky-300 min-w-[150px]  hover:shadow-gray-600 hover:shadow-md"
     >
       <img src={item.url} alt={`Image ${index}`} className="w-full" />
       <p className="m-2 pl-2 font-semibold">{item.tag}</p>
@@ -116,20 +115,13 @@ const ImageGallery = () => {
   };
 
   return (
-    <div className="bg-zinc-800 h-full min-h-screen max-w-5xl m-auto">
-      <div className="flex justify-between items-center  p-6">
+    <div className="bg-zinc-800 h-full min-h-screen max-w-5xl m-auto min-w-[320px]">
+      <div className="flex justify-center items-center  p-6">
         <Search handleSearch={handleSearch} searchQuery={searchQuery} />
-
-        <button
-          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
       </div>
       <div className="">
         {loading ? (
-          <div className="grid grid-cols-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {[...Array(20)].map((_, index) => (
               <div key={index} className="p-2 border border-gray-300">
                 <Loading />
@@ -150,6 +142,14 @@ const ImageGallery = () => {
             </DndContext>
           </div>
         )}
+      </div>
+      <div className="flex justify-end items-center p-6 mt-6">
+        <button
+          className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
