@@ -11,6 +11,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -33,6 +34,7 @@ const LoginForm = () => {
         })
         .catch((error) => {
           alert(error.code);
+          setError(error.code);
           setLogin(true);
           setPassword("");
         });
@@ -43,6 +45,7 @@ const LoginForm = () => {
         })
         .catch((error) => {
           alert(error.code);
+          setError(error.code);
           setPassword("");
         });
     }
@@ -71,6 +74,21 @@ const LoginForm = () => {
           value={email}
           onChange={handleEmailChange}
         />
+        <p className="text-red-500 text-sm">
+          {error === "auth/invalid-email" && "Invalid Email"}
+          {error === "auth/user-not-found" && "User Not Found"}
+          {error === "auth/wrong-password" && "Wrong Password"}
+          {error === "auth/email-already-in-use" && "Email Already In Use"}
+          {error === "auth/weak-password" && "Weak Password"}
+          {error === "auth/too-many-requests" && "Too Many Requests"}
+          {error === "auth/operation-not-allowed" && "Operation Not Allowed"}
+          {error === "auth/missing-email" && "Missing Email"}
+          {error === "auth/missing-password" && "Missing Password"}
+          {error === "auth/invalid-login-credentials" &&
+            "Invalid Email or Password"}
+          {error === "auth/invalid-password" && "Invalid Password"}
+          {error === "auth/network-request-failed" && "Network Error"}
+        </p>
         <input
           className="w-[300px] border-b-2 bg-transparent border-white focus:bg-transparent focus:border-b text-gray-100 focus:border-gray-500 focus:outline-0 caret-white transition duration-500 ease-in-out active:bg-transparent"
           name="password"
