@@ -63,15 +63,23 @@ const LoginForm = () => {
           handleSubmit(e, login ? "SignIn" : "SignUp");
         }}
       >
-        <input
-          className="w-[300px] border-b-2 bg-transparent border-white focus:bg-transparent focus:border-b text-gray-100 focus:border-gray-500 focus:outline-0 caret-white transition duration-500 ease-in-out active:bg-transparent"
-          name="email"
-          placeholder="Email"
-          autoComplete="off"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <p className="text-red-500 text-sm">
+        <div className="flex justify-between items-center">
+          <input
+            className="w-[300px] border-b-2 bg-transparent border-white focus:bg-transparent focus:border-b text-gray-100 focus:border-gray-500 focus:outline-0 caret-white transition duration-500 ease-in-out active:bg-transparent peer"
+            name="email"
+            placeholder="Email"
+            autoComplete="off"
+            value={email}
+            onChange={handleEmailChange}
+            required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          />
+          <span className="mt-2 hidden text-sm text-red-500 peer-[&:not(:placeholder-shown):not(:focus):invalid]:block">
+            Please enter a valid email address
+          </span>
+        </div>
+
+        <p className="text-red-500  text-sm font-semibold transition duration-500 ease-in-out active:bg-transparent ">
           {error === "auth/invalid-email" && "Invalid Email"}
           {error === "auth/user-not-found" && "User Not Found"}
           {error === "auth/wrong-password" && "Wrong Password"}
