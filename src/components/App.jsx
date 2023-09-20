@@ -1,18 +1,32 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ImageGallery from "./ImageGallery";
 import LoginForm from "./LoginForm";
-import { Route, Routes } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import ForgotPassword from "./ForgotPassword";
+import PrivateRoute from "./PrivateRoute";
+import AuthContext from "./AuthContext";
+
 function App() {
   return (
-    <div className="p-4 max-w-7xl">
-      {/* <Loading /> */}
-      {/* <LoginForm /> */}
-      {/* <ImageGallery /> */}
-      <Routes>
-        <Route path="/" element={<LoginForm />} />
-        <Route path="/gallery" element={<ImageGallery />} />
-      </Routes>
-    </div>
+    <BrowserRouter>
+      <AuthContext>
+        <div className="p-4 max-w-7xl">
+          <Routes>
+            <Route path="/" element={<LoginForm />} />;
+            <Route path="/login" element={<LoginForm />} />;
+            <Route path="/reset" element={<ForgotPassword />} />;
+            <Route
+              path="/gallery"
+              element={
+                <PrivateRoute>
+                  <ImageGallery />
+                </PrivateRoute>
+              }
+            />
+            ;
+          </Routes>
+        </div>
+      </AuthContext>
+    </BrowserRouter>
   );
 }
 

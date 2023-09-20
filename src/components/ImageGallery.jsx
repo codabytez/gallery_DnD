@@ -6,6 +6,9 @@ import { DndContext } from "@dnd-kit/core";
 import { SortableContext, arrayMove, useSortable } from "@dnd-kit/sortable";
 import { closestCenter } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
+import { database } from "./FirebaseConfig";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const SortableImage = ({ item, index }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
@@ -46,6 +49,7 @@ const ImageGallery = () => {
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const history = useNavigate();
 
   useEffect(() => {
     const tags = [
@@ -104,9 +108,32 @@ const ImageGallery = () => {
     });
   };
 
+  const handleLogout = () => {
+    // Logout the user
+    signOut(database).then((val) => {
+      console.log(val);
+      history("/");
+    });
+  };
+
   return (
     <div>
-      <Search handleSearch={handleSearch} searchQuery={searchQuery} />
+      <div>
+        <Search handleSearch={handleSearch} searchQuery={searchQuery} />
+        <button
+          onClick={() => {
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+            }, 1000);
+          }}
+        >
+          Refresh
+        </button>
+
+        {/* Logout button */}
+        <button onClick={handleLogout}>Logout</button>
+      </div>
       <div className="">
         {loading ? (
           <div className="grid grid-cols-4">

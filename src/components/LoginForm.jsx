@@ -1,50 +1,63 @@
 // LoginForm.js
-import { useState } from "react";
+import React, { useState } from "react";
+import { database } from "./FirebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  // const history = useHistory();
+  const [login, setLogin] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // For demonstration purposes, hard-coded credentials
-    const correctEmail = "user@example.com";
-    const correctPassword = "password123";
-
-    if (email === correctEmail && password === correctPassword) {
-      // Authentication successful, navigate to the gallery page
-      navigate("/gallery");
+  const handleSubmit = (e, type) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    if (type === "SignUp") {
+      createUserWithEmailAndPassword(database, email, password)
+        .then(() => {
+          navigate("/gallery");
+        })
+        .catch((error) => {
+          alert(error.code);
+          setLogin(true);
+        });
     } else {
-      // Authentication failed
-      alert("Incorrect email or password. Please try again.");
+      signInWithEmailAndPassword(database, email, password)
+        .then(() => {
+          navigate("/gallery");
+        })
+        .catch((error) => {
+          alert(error.code);
+        });
     }
+  };
+
+  const handleForgotPassword = () => {
+    navigate("/reset");
   };
 
   return (
     <div>
-      <h2>Login</h2>
-      <form>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="button" onClick={handleLogin}>
-          Login
+      <p>
+        <button onClick={() => setLogin(!login)}>
+          {" "}
+          {login ? "SignUp" : "SignIn"}
         </button>
+      </p>
+      <h1>{login ? "SignIn" : "SignUp"}</h1>
+      <form onSubmit={(e) => handleSubmit(e, login ? "SignIn" : "SignUp")}>
+        <input name="email" placeholder="Email" />
+        <br />
+        <input name="password" type="text" placeholder="Password" />
+        <br />
+        <button onClick={handleForgotPassword}>Forgot Password?</button>
+        <br />
+
+        <button>{login ? "SignIn" : "SignUp"}</button>
       </form>
     </div>
   );
